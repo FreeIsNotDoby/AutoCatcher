@@ -98,6 +98,13 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QPushButton" name="helpButton">
+           <property name="text">
+            <string>도움말</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>

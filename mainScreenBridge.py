@@ -21,10 +21,12 @@ class mainScreenBridge(QMainWindow, form_class):
         # additional windows
         self.blocker = ScreenBlocker(self.__position_selected)
         self.settingWidget = SettingWidget(self.__setting_changed, image_size, interval)
+        self.helpScreen = HelpScreen()
 
         self.findButton.clicked.connect(self.__find_button_clicked)
         self.setBasePosButton.clicked.connect(self.__set_base_pos_button_clicked)
         self.settingButton.clicked.connect(self.__setting_button_clicked)
+        self.helpButton.clicked.connect(self.__help_button_clicked)
 
         self.compare = CompareImage((0, 0), image_size, interval)
 
@@ -47,6 +49,9 @@ class mainScreenBridge(QMainWindow, form_class):
     def __setting_changed(self, changed):
         self.compare.set_image_size((changed[0], changed[1]))
         self.compare.set_image_interval(changed[2])
+
+    def __help_button_clicked(self):
+        self.helpScreen.show()
 
 
 class SettingWidget(QWidget):
@@ -111,3 +116,23 @@ class ScreenBlocker(QWidget):
         print('pos : ' + str(event.pos()))
         self.position_select_callback(event.pos())
         self.close()
+
+class HelpScreen(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        layout = QHBoxLayout()
+
+        label = QLabel('틀린 그림 찾아 드립니다.\n\n'
+                       '사용법\n'
+                       '1. 기준점 설정 클릭(화면 전체가 불투명해짐), \n'
+                       '   왼쪽 이미지의 좌측 상단 모서리 클릭\n'
+                       '2. 찾기! 버튼 클릭\n'
+                       '3. 빨갛게 표시된 부분을 찾는다\n\n'
+                       '설정\n'
+                       '이미지 너비 : 이미지 너비 설정, 기본값 450px\n'
+                       '이미지 높이 : 이미지 높이 설정, 기본값 450px\n'
+                       '이미지 사이 간격 : 이미지 둘 사이의 간격, 기본값 8px\n')
+
+        layout.addWidget(label)
+        self.setLayout(layout)
